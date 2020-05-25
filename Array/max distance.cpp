@@ -1,26 +1,41 @@
 int Solution::maximumGap(const vector<int> &A) {
-    if(A.size()==0||A.size()==1)
+    if(A.size()==0)
     return -1;
-    int n=A.size()-1,count=0,c=0;
-      vector<int> v1 (A.size(), 0), v2(A.size(), 0);
-    int i;
-    // Fill the first array with minimum from the left
-    v1[0] = A[0];
-    for( i = 1 ; i < A.size(); i++)v1[i] = min(v1[i-1], A[i]);
-    
-    // Fill the second array with maximum from the right
-    v2[A.size()-1] = A[A.size()-1];
-    for( i = A.size()-2 ; i >= 0 ; i--)v2[i] = max(v2[i+1], A[i]);
-   
-    
-        while(v2[j]>=v1[i])
-        {
-            count=j-i;
-            j++;
-        }
-        if(c<count)
-        c=count;
+    if(A.size()==1)
+    return 0;
+     vector<pair<int, int> > toSort; 
+     for(int i=0;i<A.size();i++){
+         toSort.push_back(make_pair(A[i],i));
+     }
+     sort(toSort.begin(),toSort.end());
+     
+    int c=0,x=toSort[toSort.size()-1].second;
+    for(int i=toSort.size()-2;i>=0;i--){
         
+        c=max(c,x-toSort[i].second);
+        x=max(x,toSort[i].second);
+    }
+    // for(int i=0;i<A.size();i++){
+    //     if(A[i]<=A[A.size()-i-1]){
+    //     c=(A.size()-i-1)-i;
+    //     break;
+    //     }
+    // }
+    //   if (num.size() == 0) return -1;
+    //         if (num.size() == 1) return 0;
+    //         vector<pair<int, int> > toSort; 
+    //         for (int i = 0; i < num.size(); i++) {
+    //             toSort.push_back(make_pair(num[i], i));
+    //         }
+    //         sort(toSort.begin(), toSort.end());
+    //         int len = toSort.size();
+    //         int maxIndex = toSort[len - 1].second;
+    //         int ans = 0;
+    //         for (int i = len - 2; i >= 0; i--) {
+    //             ans = max(ans, maxIndex - toSort[i].second);
+    //             maxIndex = max(maxIndex, toSort[i].second);
+    //         }
+    //         return ans;
     
     return c;
 }
